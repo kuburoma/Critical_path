@@ -1,7 +1,7 @@
 package main;
 
-import generator.Crossover;
 import generator.GenerationGenerator;
+import utils.Generation;
 import utils.Individual;
 import utils.Project;
 
@@ -101,20 +101,27 @@ public class Main {
 		boolean gene =  false;
 		boolean gene2 =  true;
 		
-		GenerationGenerator gg = new GenerationGenerator(pr);
+		//GenerationGenerator gg = new GenerationGenerator(pr);
 		//gg.generateIndividual();
 		
-		Individual ind = new Individual(pr, order, modes, gene);
-		Individual ind2 = new Individual(pr, order2, modes2, gene2);
+		//Individual ind = new Individual(pr, order, modes, gene);
+		//Individual ind2 = new Individual(pr, order2, modes2, gene2);
 		
 		//Crossover co = new Crossover(pr);
 		//co.crossBreeding(ind, ind2);
 		//Individual son = co.son;
 		
-		ind.scheduling();
+		//ind.scheduling();
 		//ind.soutRes();
 		//rpg.soutTasks();
-		System.out.println(ind.toString());
+		//System.out.println(ind.toString());
+		Generation g = new Generation(pr, 100);
+		g.initialPopulation();
+		g.schedule();
+		g.calculateFitness();
+		System.out.println("minSpan: "+g.minSpan);
+		System.out.println("maxSpan: "+g.maxSpan);
+		System.out.println("avarageSpan: "+g.averageFitness);
 	}
 
 }

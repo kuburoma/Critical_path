@@ -4,6 +4,8 @@ public class Individual {
 
 	private Project pr;
 
+	public boolean feasible;
+
 	private int fitness;
 
 	private int[][] connection;
@@ -33,6 +35,8 @@ public class Individual {
 		this.modes = modes;
 		this.gene = gene;
 		this.pr = pr;
+		this.feasible = true;
+		this.individualNonrenewableResources = new int[pr.numberOfTasks];
 
 		if (gene == true) {
 			this.connection = pr.descendant_connection;
@@ -43,17 +47,19 @@ public class Individual {
 		for (int i = 0; i < modeOrdered.length; i++) {
 			modeOrdered[i] = modes[taskOrder[i]];
 		}
-		
-		
-		
+
 		for (int i = 0; i < numberOfTasks; i++) {
 			for (int j = 0; j < pr.number_of_nonrenewable_resources; j++) {
 				individualNonrenewableResources[j] += pr.nonrenewable_resources[i][modes[taskOrder[i]]][j];
 			}
 		}
-		
+
 		for (int i = 0; i < pr.number_of_nonrenewable_resources; i++) {
-			individualNonrenewableResources[i] -= pr.nonrenewable_resources_constrain[i];				
+			individualNonrenewableResources[i] -= pr.nonrenewable_resources_constrain[i];
+		}
+
+		if (!checkNonrenewableResources()) {
+			feasible = false;
 		}
 	}
 
@@ -66,7 +72,25 @@ public class Individual {
 		} else {
 			backwardScheduling();
 		}
+	}
 
+	public int calcualteFitnessFeasible() {
+		for (int i = 0; i < numberOfTasks; i++) {
+			if (endTime[i] > fitness) {
+				fitness = endTime[i];
+			}
+		}
+		return fitness;
+	}
+
+	public int calcualteFitnessInfeasible(int max) {
+		for (int i = 0; i < numberOfTasks; i++) {
+			if (individualNonrenewableResources[i] > 0) {
+				max += individualNonrenewableResources[i];
+			}
+		}
+		fitness = max;
+		return fitness;
 	}
 
 	private void forwardScheduling() {
@@ -136,14 +160,12 @@ public class Individual {
 
 	private boolean checkNonrenewableResources() {
 		for (int i = 0; i < pr.number_of_nonrenewable_resources; i++) {
-			if(individualNonrenewableResources[i] > 0){
+			if (individualNonrenewableResources[i] > 0) {
 				return false;
 			}
 		}
 		return true;
 	}
-	
-	
 
 	private void tableToNormal() {
 		int max = 0;
@@ -174,7 +196,7 @@ public class Individual {
 			for (int j = 0; j < pr.number_of_renewable_resources; j++) {
 				individualRenewableResources[i + start_time][j] += pr.renewable_resources[current][mode][j];
 			}
-		}	
+		}
 	}
 
 	private boolean checkResourceConstrain(int current, int mode, int start_time) {
