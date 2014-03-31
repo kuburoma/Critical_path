@@ -4,25 +4,45 @@ import generator.GenerationGenerator;
 
 public class Generation {
 	
-	
+	public static int nthGeneration = 0;
 	public int minSpan;
 	public int maxSpan;
 	public double averageFitness;
 	public int totalFitness;
 	public Individual[] individuals;
 	public int[] fitness;	
+	
 	public double[] selection;
-	private int size;
-	private int numberOfIndividuals;
-	private GenerationGenerator gg;
-	private Project pr;
+	
+	public int size;
+	public int numberOfIndividuals;
+	public GenerationGenerator gg;
+	public Project pr;
 	
 
 
 	public Generation(Project pr, int size) {
 		this.pr = pr;
 		this.size = size;
-		numberOfIndividuals = size;
+		numberOfIndividuals = 0;
+		nthGeneration++;
+		individuals = new Individual[size];
+	}
+	
+	public Generation clone(){
+		Generation a = new Generation(pr,size);
+		a.minSpan = this.minSpan;
+		a.maxSpan = this.maxSpan;
+		a.averageFitness = this.averageFitness;
+		a.totalFitness = this.totalFitness;
+		a.individuals = this.individuals;
+		a.fitness = this.fitness;	
+		
+		a.selection = this.selection;
+		
+		a.numberOfIndividuals = this.numberOfIndividuals;
+		a.gg = this.gg;
+		return a;
 	}
 	
 	public int getSize(){
@@ -31,12 +51,12 @@ public class Generation {
 
 	public void initialPopulation() {
 		gg = new GenerationGenerator(pr);
-		individuals = new Individual[size];
 		gg.generatePopulation(size).toArray(individuals);
 	}
 
 	public void addIndividual(Individual ind) {
 		if (size == numberOfIndividuals) {
+			System.out.println("full");
 			return;
 		}
 		individuals[numberOfIndividuals] = ind;
@@ -63,6 +83,15 @@ public class Generation {
 		this.averageFitness = averageFitness;
 		this.totalFitness = totalFitness;
 		this.fitness = fitness;
+	}
+	
+	public void addSelection(){}
+	
+	public void soutFitnessStats(){
+		System.out.println("Generation : "+nthGeneration);
+		System.out.println("    minSpan: "+minSpan);
+		System.out.println("    maxSpan: "+maxSpan);
+		System.out.println("     avgFit: " +averageFitness);
 	}
 	
 	public void soutFitness(){

@@ -107,6 +107,7 @@ public class Crossover2PFBC extends Crossover {
 			}
 		}
 		
+		/*
 		
 		System.out.println("start: "+start+" end: "+end);
 		
@@ -122,7 +123,7 @@ public class Crossover2PFBC extends Crossover {
 		
 		System.out.println("+++++++++++++++++++++++");
 		
-		
+		*/
 		
 		return new Individual(pr, order, modes, father.gene);
 	}
@@ -195,6 +196,7 @@ public class Crossover2PFBC extends Crossover {
 			}
 		}
 		
+		/*
 		
 		System.out.println("start: "+start+" end: "+end);
 		
@@ -210,7 +212,7 @@ public class Crossover2PFBC extends Crossover {
 		
 		System.out.println("+++++++++++++++++++++++");
 		
-		
+		*/
 		
 		return new Individual(pr, order, modes, father.gene);
 	}

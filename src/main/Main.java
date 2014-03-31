@@ -2,6 +2,8 @@ package main;
 
 import crossover.Crossover2PFBC;
 import fitness.FitnessMinSpan;
+import selection.Selection;
+import selection.SelectionRouletteWheel;
 import utils.Generation;
 import utils.Project;
 
@@ -125,11 +127,10 @@ public class Main {
 		//System.out.println("maxSpan: "+g.maxSpan);
 		//System.out.println("avarageSpan: "+g.averageFitness);
 		
-		BreedingStation br = new BreedingStation(pr, new Crossover2PFBC(pr), new FitnessMinSpan(), 100);
-		System.out.println(br.oldGeneration.maxSpan);
-		System.out.println(br.oldGeneration.minSpan);
-		System.out.println(br.oldGeneration.averageFitness);
+		BreedingStation br = new BreedingStation(pr, new Crossover2PFBC(pr), new FitnessMinSpan(), new SelectionRouletteWheel(), 100);
+
 		//br.oldGeneration.soutFitness();
+		br.run(10);
 	
 	}
 
