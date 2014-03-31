@@ -11,12 +11,12 @@ import utils.Project;
 
 public class BreedingStation {
 	
-	Generation oldGeneration;
-	Generation newGeneration;
-	Individual best;
+	public Generation oldGeneration;
+	public Generation newGeneration;
+	public Individual best;
 	
-	Crossover crossoverType;
-	Fitness fitnessType;
+	public Crossover crossoverType;
+	public Fitness fitnessType;
 	
 	int[][] selection;
 	
@@ -58,8 +58,6 @@ public class BreedingStation {
 			//crossoverType.crossBreeding(father, mother)
 			
 		}
-		
-		
 	}
 	
 	private void evaluateFitness(){

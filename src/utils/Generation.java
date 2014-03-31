@@ -3,12 +3,20 @@ package utils;
 import generator.GenerationGenerator;
 
 public class Generation {
-
+	
+	
+	public int minSpan;
+	public int maxSpan;
+	public double averageFitness;
+	public int totalFitness;
 	public Individual[] individuals;
+	public int[] fitness;	
+	public double[] selection;
 	private int size;
 	private int numberOfIndividuals;
 	private GenerationGenerator gg;
 	private Project pr;
+	
 
 
 	public Generation(Project pr, int size) {
@@ -47,5 +55,20 @@ public class Generation {
 		for (int i = 0; i < individuals.length; i++) {
 			individuals[i].scheduling();
 		}
+	}
+	
+	public void addFitness(int minSpan, int maxSpan, double averageFitness, int totalFitness, int[] fitness){
+		this.minSpan = minSpan;
+		this.maxSpan = maxSpan;
+		this.averageFitness = averageFitness;
+		this.totalFitness = totalFitness;
+		this.fitness = fitness;
+	}
+	
+	public void soutFitness(){
+		for (int i = 0; i < fitness.length; i++) {
+			System.out.print(fitness[i]+" ");
+		}
+		System.out.println();
 	}
 }

@@ -1,5 +1,7 @@
 package main;
 
+import crossover.Crossover2PFBC;
+import fitness.FitnessMinSpan;
 import utils.Generation;
 import utils.Project;
 
@@ -113,13 +115,22 @@ public class Main {
 		//ind.soutRes();
 		//rpg.soutTasks();
 		//System.out.println(ind.toString());
-		Generation g = new Generation(pr, 100);
-		g.initialPopulation();
-		g.schedule();
+		
+		
+		//Generation g = new Generation(pr, 100);
+		//g.initialPopulation();
+		//g.schedule();
 		//g.calculateFitness();
 		//System.out.println("minSpan: "+g.minSpan);
 		//System.out.println("maxSpan: "+g.maxSpan);
 		//System.out.println("avarageSpan: "+g.averageFitness);
+		
+		BreedingStation br = new BreedingStation(pr, new Crossover2PFBC(pr), new FitnessMinSpan(), 100);
+		System.out.println(br.oldGeneration.maxSpan);
+		System.out.println(br.oldGeneration.minSpan);
+		System.out.println(br.oldGeneration.averageFitness);
+		//br.oldGeneration.soutFitness();
+	
 	}
 
 }
