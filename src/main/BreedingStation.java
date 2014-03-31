@@ -1,5 +1,7 @@
 package main;
 
+import crossover.Crossover;
+import fitness.Fitness;
 import utils.Generation;
 import utils.Individual;
 import utils.Project;
@@ -14,7 +16,7 @@ public class BreedingStation {
 	Project pr;
 	int size;
 	
-	public BreedingStation(Project pr, int size){
+	public BreedingStation(Project pr, Crossover typeCrossover, Fitness fitnessCrossover, int size){
 		this.pr = pr;
 		this.size = size;
 		oldGeneration = new Generation(pr, size);

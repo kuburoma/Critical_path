@@ -1,28 +1,16 @@
-package generator;
+package crossover;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Random;
 
 import utils.Individual;
 import utils.Project;
-import utils.Task;
 
-public class Crossover {
+public class Crossover2PFBC extends Crossover {
 
-	Project pr;
-
-	Individual father;
-	Individual mother;
-
-	public Individual son;
-	public Individual daughter;
-
-	private Random rand = new Random();
-
-	public Crossover(Project pr) {
-		this.pr = pr;
+	public Crossover2PFBC(Project pr) {
+		super(pr);
 	}
 
 	public void crossBreeding(Individual father, Individual mother) {
@@ -225,29 +213,5 @@ public class Crossover {
 		
 		
 		return new Individual(pr, order, modes, father.gene);
-	}
-	
-	private boolean allPredecessorsDone(int current, boolean[] task_used) { //
-		int[] array = pr.precedence_connection[current];
-		for (int i = 0; i < array.length; i++) {
-			if (!task_used[array[i]]) {
-				return false;
-			}
-		}
-		return true;
-	}
-	
-	private boolean allDescendantsDone(int current, boolean[] task_used) { //
-		int[] array = pr.descendant_connection[current];
-		for (int i = 0; i < array.length; i++) {
-			if (!task_used[array[i]]) {
-				return false;
-			}
-		}
-		return true;
-	}
-
-	private int randomNumber(int i) {
-		return rand.nextInt(i);
 	}
 }

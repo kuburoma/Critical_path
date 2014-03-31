@@ -1,8 +1,6 @@
 package main;
 
-import generator.GenerationGenerator;
 import utils.Generation;
-import utils.Individual;
 import utils.Project;
 
 public class Main {
@@ -92,14 +90,14 @@ public class Main {
 				number_of_nonrenewable_resources);
 		
 
-		int[] order = {0,2,1,4,5,7,3,6,8};
-		int[] modes = {0,1,0,0,1,0,0,0,0};
+		//int[] order = {0,2,1,4,5,7,3,6,8};
+		//int[] modes = {0,1,0,0,1,0,0,0,0};
 		
-		int[] order2 = {0,1,3,4,2,6,5,7,8};
-		int[] modes2 = {1,1,0,1,1,0,0,0,1};
+		//int[] order2 = {0,1,3,4,2,6,5,7,8};
+		//int[] modes2 = {1,1,0,1,1,0,0,0,1};
 		
-		boolean gene =  false;
-		boolean gene2 =  true;
+		//boolean gene =  false;
+		//boolean gene2 =  true;
 		
 		//GenerationGenerator gg = new GenerationGenerator(pr);
 		//gg.generateIndividual();
@@ -118,10 +116,10 @@ public class Main {
 		Generation g = new Generation(pr, 100);
 		g.initialPopulation();
 		g.schedule();
-		g.calculateFitness();
-		System.out.println("minSpan: "+g.minSpan);
-		System.out.println("maxSpan: "+g.maxSpan);
-		System.out.println("avarageSpan: "+g.averageFitness);
+		//g.calculateFitness();
+		//System.out.println("minSpan: "+g.minSpan);
+		//System.out.println("maxSpan: "+g.maxSpan);
+		//System.out.println("avarageSpan: "+g.averageFitness);
 	}
 
 }
