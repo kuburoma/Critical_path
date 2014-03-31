@@ -4,11 +4,11 @@ import generator.GenerationGenerator;
 
 public class Generation {
 
-	Individual[] generation;
-	int size;
-	int numberOfIndividuals;
-	GenerationGenerator gg;
-	Project pr;
+	public Individual[] individuals;
+	private int size;
+	private int numberOfIndividuals;
+	private GenerationGenerator gg;
+	private Project pr;
 
 
 	public Generation(Project pr, int size) {
@@ -16,18 +16,22 @@ public class Generation {
 		this.size = size;
 		numberOfIndividuals = size;
 	}
+	
+	public int getSize(){
+		return size;
+	}
 
 	public void initialPopulation() {
 		gg = new GenerationGenerator(pr);
-		generation = new Individual[size];
-		gg.generatePopulation(size).toArray(generation);
+		individuals = new Individual[size];
+		gg.generatePopulation(size).toArray(individuals);
 	}
 
 	public void addIndividual(Individual ind) {
 		if (size == numberOfIndividuals) {
 			return;
 		}
-		generation[numberOfIndividuals] = ind;
+		individuals[numberOfIndividuals] = ind;
 		numberOfIndividuals++;
 	}
 
@@ -40,8 +44,8 @@ public class Generation {
 	}
 
 	public void schedule() {
-		for (int i = 0; i < generation.length; i++) {
-			generation[i].scheduling();
+		for (int i = 0; i < individuals.length; i++) {
+			individuals[i].scheduling();
 		}
 	}
 }

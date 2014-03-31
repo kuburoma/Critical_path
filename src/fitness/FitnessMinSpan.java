@@ -4,9 +4,10 @@ public class FitnessMinSpan extends Fitness {
 	
 	public void calculate() {
 		int helpSpan;
-		for (int i = 0; i < generation.length; i++) {
-			if (generation[i].feasible) {
-				helpSpan = generation[i].calcualteFitnessFeasible();
+		for (int i = 0; i < generation.getSize(); i++) {
+			if (generation.individuals[i].feasible) {
+				helpSpan = generation.individuals[i].calcualteFitnessFeasible();
+				fitness[i] = helpSpan;
 				averageFitness += helpSpan;
 				if(minSpan > helpSpan){
 					minSpan = helpSpan;
@@ -18,9 +19,9 @@ public class FitnessMinSpan extends Fitness {
 			}
 		}
 		
-		for (int i = 0; i < generation.length; i++) {
-			if (!generation[i].feasible) {
-				averageFitness += generation[i].calcualteFitnessInfeasible(maxSpan);
+		for (int i = 0; i < generation.getSize(); i++) {
+			if (!generation.individuals[i].feasible) {
+				averageFitness += generation.individuals[i].calcualteFitnessInfeasible(maxSpan);
 			}
 		}
 		

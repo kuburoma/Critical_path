@@ -9,7 +9,7 @@ public class Task {
 	private static int totalNumber = 0;
 	private int number;
 	
-	private int[] predecessorArray = new int[0];
+	//private int[] predecessorArray = new int[0];
 	private List<Task> predecessor;
 	private List<Task> descendants;	
 	private int modes;
