@@ -3,6 +3,7 @@ package selection;
 import utils.Generation;
 
 public class SelectionRouletteWheel extends Selection {
+	
 
 	@Override
 	public int[] selectionNewPopulation(Generation generation) {
