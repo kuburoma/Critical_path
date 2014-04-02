@@ -1,5 +1,8 @@
 package utils;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import generator.GenerationGenerator;
 
 public class Generation {
@@ -9,8 +12,7 @@ public class Generation {
 	public int maxSpan;
 	public double averageFitness;
 	public int totalFitness;
-	public Individual[] individuals;
-	public int[] fitness;	
+	public List<Individual> individuals;
 	
 	public double[] selection;
 	
@@ -26,7 +28,7 @@ public class Generation {
 		this.size = size;
 		numberOfIndividuals = 0;
 		nthGeneration++;
-		individuals = new Individual[size];
+		individuals = new ArrayList<Individual>(size);
 	}
 	
 	public Generation clone(){
@@ -36,7 +38,6 @@ public class Generation {
 		a.averageFitness = this.averageFitness;
 		a.totalFitness = this.totalFitness;
 		a.individuals = this.individuals;
-		a.fitness = this.fitness;	
 		
 		a.selection = this.selection;
 		
@@ -52,7 +53,7 @@ public class Generation {
 	public void initialPopulation() {
 		System.out.println(size);
 		gg = new GenerationGenerator(pr);
-		gg.generatePopulation(size).toArray(individuals);
+		individuals = gg.generatePopulation(size);
 	}
 
 	public void addIndividual(Individual ind) {
@@ -60,7 +61,7 @@ public class Generation {
 			System.out.println("full");
 			return;
 		}
-		individuals[numberOfIndividuals] = ind;
+		individuals.add(ind);
 		numberOfIndividuals++;
 	}
 
@@ -73,17 +74,28 @@ public class Generation {
 	}
 
 	public void schedule() {
-		for (int i = 0; i < individuals.length; i++) {
-			individuals[i].scheduling();
+		for (int i = 0; i < individuals.size(); i++) {
+			individuals.get(i).scheduling();
 		}
 	}
 	
-	public void addFitness(int minSpan, int maxSpan, double averageFitness, int totalFitness, int[] fitness){
+	public void addFitness(int minSpan, int maxSpan, double averageFitness, int totalFitness){
 		this.minSpan = minSpan;
 		this.maxSpan = maxSpan;
 		this.averageFitness = averageFitness;
 		this.totalFitness = totalFitness;
-		this.fitness = fitness;
+	}
+	
+	public void setFitnessTo(int pos, int fitness){
+		individuals.get(pos).setFitness(fitness);
+	}
+	
+	public int getFitnessFrom(int pos){
+		return individuals.get(pos).getFitness();
+	}
+	
+	public boolean isFeasible(int pos){
+		return individuals.get(pos).isFeasible();
 	}
 	
 	public void addSelection(){}
@@ -95,10 +107,4 @@ public class Generation {
 		System.out.println("     avgFit: " +averageFitness);
 	}
 	
-	public void soutFitness(){
-		for (int i = 0; i < fitness.length; i++) {
-			System.out.print(fitness[i]+" ");
-		}
-		System.out.println();
-	}
 }

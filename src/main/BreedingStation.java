@@ -69,8 +69,8 @@ public class BreedingStation {
 
 	private void crossover() {
 		for (int i = 1; i < size; i += 2) {
-			crossoverType.crossBreeding(oldGeneration.individuals[selected[i]],
-					oldGeneration.individuals[selected[i - 1]]);
+			crossoverType.crossBreeding(oldGeneration.individuals.get(selected[i]),
+					oldGeneration.individuals.get(selected[i - 1]));
 			
 			newGeneration.addIndividual(crossoverType.getSon());
 			newGeneration.addIndividual(crossoverType.getDaughter());

@@ -25,13 +25,13 @@ public class Crossover2PFBC extends Crossover {
 			end = help;
 		}
 
-		if (father.gene == false) {
+		if (father.getGene()== false) {
 			son = crossBreedingForward(father, mother, start, end);
 		} else {
 			son = crossBreedingBackward(father, mother, start, end);
 		}
 
-		if (mother.gene == false) {
+		if (mother.getGene() == false) {
 			daughter = crossBreedingForward(mother, father, start, end);
 		} else {
 			daughter = crossBreedingBackward(mother, father, start, end);
@@ -125,7 +125,7 @@ public class Crossover2PFBC extends Crossover {
 		
 		*/
 		
-		return new Individual(pr, order, modes, father.gene);
+		return new Individual(pr, order, modes, father.getGene());
 	}
 
 	private Individual crossBreedingBackward(Individual father, Individual mother, int start, int end) {
@@ -214,6 +214,6 @@ public class Crossover2PFBC extends Crossover {
 		
 		*/
 		
-		return new Individual(pr, order, modes, father.gene);
+		return new Individual(pr, order, modes, father.getGene());
 	}
 }

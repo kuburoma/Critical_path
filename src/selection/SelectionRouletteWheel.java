@@ -11,7 +11,7 @@ public class SelectionRouletteWheel extends Selection {
 
 		selection = new double[generation.getSize()];
 		for (int i = 1; i < generation.getSize(); i++) {
-			selection[i] = (selection[i - 1] + generation.fitness[i - 1]
+			selection[i] = (selection[i - 1] + generation.getFitnessFrom(i-1)
 					/ (generation.totalFitness * 1.0));
 			System.out.print(selection[i] + " ");
 		}

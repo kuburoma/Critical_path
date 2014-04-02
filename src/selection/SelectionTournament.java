@@ -22,8 +22,8 @@ public class SelectionTournament extends Selection {
 			bestPosition = 0;
 			for (int j = 0; j < sizeOfTurnament; j++) {
 				r = random.nextInt(selection.length);
-				if(best > generation.fitness[r] ){
-					best = generation.fitness[r];
+				if(best > generation.getFitnessFrom(r) ){
+					best = generation.getFitnessFrom(r);
 					bestPosition = r;
 				}
 			}

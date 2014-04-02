@@ -4,7 +4,7 @@ public class Individual {
 
 	private Project pr;
 
-	public boolean feasible;
+	private boolean feasible;
 
 	private int fitness;
 
@@ -22,7 +22,23 @@ public class Individual {
 
 	private int numberOfTasks;
 
-	public boolean gene;
+	private boolean gene;
+
+	public boolean isFeasible() {
+		return feasible;
+	}
+
+	public int getFitness() {
+		return fitness;
+	}
+
+	public void setFitness(int fitness) {
+		this.fitness = fitness;
+	}
+	
+	public boolean getGene(){
+		return gene;
+	}
 
 	public Individual(Project pr, int[] order, int[] modes, boolean gene) {
 		this.startTime = new int[pr.numberOfTasks];
