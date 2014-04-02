@@ -160,7 +160,7 @@ public class Individual {
 
 	private boolean checkNonrenewableResources() {
 		for (int i = 0; i < pr.number_of_nonrenewable_resources; i++) {
-			if (individualNonrenewableResources[i] > 0) {
+			if (individualNonrenewableResources[i] > pr.nonrenewable_resources_constrain[i]) {
 				return false;
 			}
 		}

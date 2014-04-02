@@ -20,6 +20,7 @@ abstract public class Fitness {
 		fitness = new int[size];
 		minSpan = Integer.MAX_VALUE;
 		maxSpan = 0;
+		
 		minSpanTask = 0;
 		totalFitness = 0;
 		totalFitness = 0;

@@ -28,7 +28,7 @@ public class Project {
 	int maxLength;
 	
 	
-	public Project(int numberOfTasks, int[][] precedence_connection,
+	public Project(int numberOfTasks, int[][] descendant_connection,
 			int[] number_of_modes_in_task, int[][] duration_in_task_mode,
 			int[][][] renewable_resources,
 			int[] renewable_resources_constrain,
@@ -38,7 +38,7 @@ public class Project {
 			int number_of_nonrenewable_resources) {
 		super();
 		this.numberOfTasks = numberOfTasks;
-		this.precedence_connection = precedence_connection;
+		this.descendant_connection = descendant_connection;
 		this.number_of_modes_in_task = number_of_modes_in_task;
 		this.duration_in_task_mode = duration_in_task_mode;
 		this.renewable_resources = renewable_resources;
@@ -49,13 +49,13 @@ public class Project {
 		this.number_of_nonrenewable_resources = number_of_nonrenewable_resources;
 		this.maxLength = calculateMaxLenght();
 		tasks = new Task[numberOfTasks];
-		descendant_connection = new int[numberOfTasks][];
+		precedence_connection = new int[numberOfTasks][];
 		
 		for (int i = 0; i < numberOfTasks; i++) {
 			this.tasks[i] = new Task(number_of_modes_in_task[i]);
 		}
 		
-		settingConnection(precedence_connection);
+		settingConnection(descendant_connection);
 		
 
 	}
@@ -78,13 +78,13 @@ public class Project {
 		return maxLength;
 	}
 	
-	public void settingConnection(int[][] predecessor) {
+	public void settingConnection(int[][] descendant) {
 		Task parent;
 		Task child = null;
 
-		for (int i = 0; i < predecessor.length; i++) {
-			for (int j = 0; j < predecessor[i].length; j++) {
-				parent = tasks[predecessor[i][j]];
+		for (int i = 0; i < descendant.length; i++) {
+			for (int j = 0; j < descendant[i].length; j++) {
+				parent = tasks[descendant[i][j]];
 				child = tasks[i];
 
 				parent.addDescendant(child);
@@ -103,7 +103,7 @@ public class Project {
 				array[j] = object.getNumber(); 
 				j++;
 			}
-			descendant_connection[i] = array;
+			precedence_connection[i] = array;
 		}
 		
 		

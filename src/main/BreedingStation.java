@@ -38,7 +38,8 @@ public class BreedingStation {
 		oldGeneration.initialPopulation();
 		schedule();
 		evaluateFitness();
-		soutResult();
+		//soutResult();
+		
 	}
 
 	public void run(int numberOfTimes) {

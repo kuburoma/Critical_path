@@ -50,6 +50,7 @@ public class Generation {
 	}
 
 	public void initialPopulation() {
+		System.out.println(size);
 		gg = new GenerationGenerator(pr);
 		gg.generatePopulation(size).toArray(individuals);
 	}

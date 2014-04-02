@@ -36,7 +36,7 @@ public class Reader {
 		/* table[task][mode] */
 		int[][] duration_in_task_mode;
 
-		InputStream in = getClass().getResourceAsStream("/resources/r19_1.mm");
+		InputStream in = getClass().getResourceAsStream("/resources/"+project+".mm");
 		input = new BufferedReader(new InputStreamReader(in));
 
 		String line;
@@ -129,7 +129,7 @@ public class Reader {
 			nonrenewable_resources_constrain[i] = Integer.valueOf(st.nextToken());
 		}
 
-		/*
+		
 		System.out.println("Jobs: " + number_of_tasks);
 		System.out.println("rr: " + number_of_renewable_resources);
 		System.out.println("ne: " + number_of_nonrenewable_resources);
@@ -168,7 +168,7 @@ public class Reader {
 			}
 		}
 		
-		*/
+		
 		
 		return new Project(
 				number_of_tasks, 
