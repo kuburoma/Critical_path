@@ -1,6 +1,6 @@
 package utils;
 
-public class Individual {
+public class Individual implements Comparable<Individual> {
 
 	private Project pr;
 
@@ -217,7 +217,8 @@ public class Individual {
 
 	private boolean checkResourceConstrain(int current, int mode, int start_time) {
 		int size = pr.duration_in_task_mode[current][mode];
-
+		
+		
 		for (int i = 0; i < size; i++) {
 			for (int j = 0; j < pr.number_of_renewable_resources; j++) {
 				if (individualRenewableResources[i + start_time][j]
@@ -268,4 +269,21 @@ public class Individual {
 			System.out.println();
 		}
 	}
+
+	@Override
+	public int compareTo(Individual arg0) {
+		if(this.fitness == arg0.fitness){
+			return 0;
+		}
+		if(this.fitness > arg0.fitness){
+			return 1;
+		}
+		if(this.fitness < arg0.fitness){
+			return -1;
+		}
+		
+		return 0;
+	}
+
+
 }

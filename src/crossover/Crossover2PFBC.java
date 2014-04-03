@@ -9,10 +9,6 @@ import utils.Project;
 
 public class Crossover2PFBC extends Crossover {
 
-	public Crossover2PFBC(Project pr) {
-		super(pr);
-	}
-
 	public void crossBreeding(Individual father, Individual mother) {
 		this.father = father;
 		this.mother = mother;

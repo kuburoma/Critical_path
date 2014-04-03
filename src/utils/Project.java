@@ -22,9 +22,8 @@ public class Project {
 	int[] nonrenewable_resources_constrain;
 	int number_of_nonrenewable_resources;
 
+	public int optimumSpan;
 
-
-	Task[] tasks;
 	int maxLength;
 	
 	
@@ -35,7 +34,7 @@ public class Project {
 			int number_of_renewable_resources,
 			int[][][] nonrenewable_resources,
 			int[] nonrenewable_resources_constrain,
-			int number_of_nonrenewable_resources) {
+			int number_of_nonrenewable_resources, int optimumSpan) {
 		super();
 		this.numberOfTasks = numberOfTasks;
 		this.descendant_connection = descendant_connection;
@@ -47,17 +46,29 @@ public class Project {
 		this.nonrenewable_resources = nonrenewable_resources;
 		this.nonrenewable_resources_constrain = nonrenewable_resources_constrain;
 		this.number_of_nonrenewable_resources = number_of_nonrenewable_resources;
+		this.optimumSpan = optimumSpan;
 		this.maxLength = calculateMaxLenght();
-		tasks = new Task[numberOfTasks];
-		precedence_connection = new int[numberOfTasks][];
 		
-		for (int i = 0; i < numberOfTasks; i++) {
-			this.tasks[i] = new Task(number_of_modes_in_task[i]);
-		}
+		precedence_connection = new int[numberOfTasks][];
 		
 		settingConnection(descendant_connection);
 		
+		
 
+	}
+	
+	public boolean isFeasible(){
+		for (int i = 0; i < renewable_resources.length; i++) {
+			for (int j = 0; j < renewable_resources[i].length; j++) {
+				for (int j2 = 0; j2 < renewable_resources[i][j].length; j2++) {
+					if(renewable_resources_constrain[j2] < renewable_resources[i][j][j2]){
+						return false;
+					}
+				}
+			}
+		}	
+		
+		return true;
 	}
 	
 	
@@ -79,41 +90,36 @@ public class Project {
 	}
 	
 	public void settingConnection(int[][] descendant) {
-		Task parent;
-		Task child = null;
-
+		
+		int[] precedenceSize = new int[numberOfTasks];
+		int[] precedencePlaced = new int[numberOfTasks];
+		
 		for (int i = 0; i < descendant.length; i++) {
 			for (int j = 0; j < descendant[i].length; j++) {
-				parent = tasks[descendant[i][j]];
-				child = tasks[i];
-
-				parent.addDescendant(child);
-				child.addParent(parent);
-				
+				precedenceSize[descendant[i][j]] ++;
 			}
 		}
-		Iterator<Task> it;
 		
-		for (int i = 0; i < numberOfTasks; i++) {
-			it = tasks[i].getDescendants().iterator();
-			int[] array = new int[tasks[i].getDescendants().size()];
-			int j = 0;
-			while (it.hasNext()) {
-				Task object = it.next();
-				array[j] = object.getNumber(); 
-				j++;
-			}
-			precedence_connection[i] = array;
+		for (int i = 0; i < precedenceSize.length; i++) {
+			precedence_connection[i] = new int[precedenceSize[i]];
 		}
+		
+		for (int i = 0; i < descendant.length; i++) {
+			for (int j = 0; j < descendant[i].length; j++) {
+				precedence_connection[descendant[i][j]][precedencePlaced[descendant[i][j]]] = i;
+				precedencePlaced[descendant[i][j]]++;
+			}
+		}
+		
 		
 		
 	}
 	
-	public void soutDescendants(){
-		for (int i = 0; i < descendant_connection.length; i++) {
+	public void soutPrecedence(){
+		for (int i = 0; i < precedence_connection.length; i++) {
 			System.out.println("Des: "+i);
-			for (int j = 0; j < descendant_connection[i].length; j++) {
-				System.out.print(descendant_connection[i][j]+ " ");
+			for (int j = 0; j < precedence_connection[i].length; j++) {
+				System.out.print(precedence_connection[i][j]+ " ");
 			}
 			System.out.println();
 		}

@@ -1,17 +1,18 @@
 package main;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import crossover.Crossover;
-import fitness.Fitness;
+import reader.Reader;
 import selection.Selection;
 import utils.Generation;
 import utils.Individual;
 import utils.Project;
+import crossover.Crossover;
+import fitness.Fitness;
 
-public class BreedingStation {
-
+public class Benchmark {
 	public Generation oldGeneration;
 	public Generation newGeneration;
 	public Individual best;
@@ -20,67 +21,88 @@ public class BreedingStation {
 	public Fitness fitnessType;
 	public Selection selection;
 	private int[] selected;
-	private List<Double> avgFitness;
 
-	Project pr;
 	int size;
-	int minSpan;
 
-	List<Integer> a = new ArrayList<Integer>();
 
-	public BreedingStation(Project pr, Crossover crossoverType,
+	public Benchmark(Crossover crossoverType,
 			Fitness fitnessType, Selection selection, int size) {
-		this.pr = pr;
 		this.size = size;
 		this.crossoverType = crossoverType;
 		this.fitnessType = fitnessType;
 		this.selection = selection;
-		avgFitness = new ArrayList<Double>();
+
+
+		//soutResult();
+		//oldGeneration.soutFitness();
+		
+	}
+	
+	public void run(){
+		Reader r = new Reader();
+		Project pr;
+		
+		long avarageDeviation = 0;
+		double numberOfSchedules = 0;
+		int help;
+
+		try {
+			for (int i = 1; i <= 64; i++) {
+				for (int j = 1; j <= 10; j++) {
+					
+					pr = r.read("j30/j30"+i+"_"+j);
+					if(!pr.isFeasible()){
+						continue;
+					}
+
+					crossoverType.setProject(pr);
+					help = runProject(pr,1000);
+					
+					//System.out.println(i+" "+j);
+					//System.out.println(help);					
+					//System.out.println(pr.optimumSpan);
+					//System.out.println(help - pr.optimumSpan);
+					//System.out.println("-----------");
+					avarageDeviation += help - pr.optimumSpan;
+					numberOfSchedules++;
+					
+				}
+			}
+			double ad = (avarageDeviation * 1.0) / (numberOfSchedules * 1.0);
+			System.out.println(ad);
+			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	
+	public int runProject(Project pr, int numberOfSchedules) {
+
+		int minSpan = Integer.MAX_VALUE;
 		oldGeneration = new Generation(pr, size);
 		newGeneration = new Generation(pr, size);
 		oldGeneration.initialPopulation();
 		schedule();
 		evaluateFitness();
-		avgFitness.add(oldGeneration.averageFitness);
-		minSpan = Integer.MAX_VALUE;
-		crossoverType.setProject(pr);
-		//soutResult();
-		//oldGeneration.soutFitness();
 		
-	}
-	
-	public List<Double> runSchedules(int numberOfSchedules) {
+		
 		for (int i = 1; i < numberOfSchedules / size; i++) {
-			nextGeneration();
-			avgFitness.add(oldGeneration.averageFitness);
+			nextGeneration(pr);
 			if(oldGeneration.minSpan < minSpan){
 				minSpan = oldGeneration.minSpan;
 			}
 		}
-		return avgFitness;
+		return minSpan;
 	}
-
-	public List<Double> run(int numberOfTimes) {
-		for (int i = 1; i < numberOfTimes; i++) {
-			nextGeneration();
-			avgFitness.add(oldGeneration.averageFitness);
-			
-		}
-		return avgFitness;
-	}
-
 	
-	
-	private void nextGeneration() {
+	private void nextGeneration(Project pr) {
 		selection();
 		crossover();
-		switchGenerations();
+		switchGenerations(pr);
 		schedule();
 		evaluateFitness();
-		//soutResult();
-		
-		//oldGeneration.sortIndividuals();
-		//oldGeneration.soutFitness();
 	}
 
 	private void schedule() {
@@ -101,7 +123,7 @@ public class BreedingStation {
 		}
 	}
 
-	private void switchGenerations() {
+	private void switchGenerations(Project pr) {
 		oldGeneration = newGeneration.clone();
 		newGeneration = new Generation(pr, size);
 	}
@@ -113,5 +135,4 @@ public class BreedingStation {
 	private void soutResult() {
 		oldGeneration.soutFitnessStats();
 	}
-
 }

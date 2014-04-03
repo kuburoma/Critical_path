@@ -1,5 +1,6 @@
 package reader;
 import java.io.BufferedReader;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -15,6 +16,8 @@ public class Reader {
 	public Project read(String project) throws IOException {
 
 		int number_of_tasks;
+		
+		int optimumSpan;
 
 		int[][] descendante_connection;
 
@@ -36,7 +39,8 @@ public class Reader {
 		/* table[task][mode] */
 		int[][] duration_in_task_mode;
 
-		InputStream in = getClass().getResourceAsStream("/resources/"+project+".mm");
+		InputStream in = getClass().getResourceAsStream("/"+project+".mm");
+		//InputStream in = new FileInputStream(project);
 		input = new BufferedReader(new InputStreamReader(in));
 
 		String line;
@@ -55,7 +59,15 @@ public class Reader {
 		number_of_nonrenewable_resources = Integer.parseInt(line.replaceAll(
 				"[\\D]", ""));
 
-		skip(8);
+		skip(4);
+		line = input.readLine();
+		st = new StringTokenizer(line);
+		st.nextToken();
+		st.nextToken();
+		st.nextToken();
+		optimumSpan = Integer.valueOf(st.nextToken());
+		
+		skip(3);
 
 		number_of_modes_in_task = new int[number_of_tasks];
 		descendante_connection = new int[number_of_tasks][];
@@ -129,8 +141,9 @@ public class Reader {
 			nonrenewable_resources_constrain[i] = Integer.valueOf(st.nextToken());
 		}
 
-		
+		/*
 		System.out.println("Jobs: " + number_of_tasks);
+		System.out.println("OptimumSpan: "+optimumSpan);
 		System.out.println("rr: " + number_of_renewable_resources);
 		System.out.println("ne: " + number_of_nonrenewable_resources);
 		System.out.println("rr con: ");
@@ -143,15 +156,20 @@ public class Reader {
 			System.out.print(nonrenewable_resources_constrain[j]+" ");
 		}
 		System.out.println();
+		
+		*/
+		/*
+		
 		for (int i = 0; i < descendante_connection.length; i++) {
+			System.out.print(i+": ");
 			for (int j = 0; j < descendante_connection[i].length; j++) {
 				System.out.print(descendante_connection[i][j] + " ");
 			}
 			System.out.println();
 		}
 		
-		
-		
+		*/
+		/*
 		System.out.println("Renewable resources");
 		for (int i = 0; i < renewable_resources.length; i++) {
 			System.out.println("Task "+i);
@@ -168,7 +186,7 @@ public class Reader {
 			}
 		}
 		
-		
+		*/
 		
 		return new Project(
 				number_of_tasks, 
@@ -180,7 +198,7 @@ public class Reader {
 				number_of_renewable_resources, 
 				nonrenewable_resources, 
 				nonrenewable_resources_constrain, 
-				number_of_nonrenewable_resources);
+				number_of_nonrenewable_resources, optimumSpan);
 		
 	}
 

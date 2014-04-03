@@ -7,7 +7,6 @@ import java.util.Random;
 
 import utils.Individual;
 import utils.Project;
-import utils.Task;
 
 public class GenerationGenerator {
 
@@ -95,14 +94,6 @@ public class GenerationGenerator {
 
 	private int randomNumber(int i) {
 		return rand.nextInt(i);
-	}
-
-	public void soutListTask(List<Task> l) {
-		for (Iterator<Task> iterator = l.iterator(); iterator.hasNext();) {
-			Task task = iterator.next();
-			System.out.print(task.getNumber() + " ");
-		}
-		System.out.println();
 	}
 
 }

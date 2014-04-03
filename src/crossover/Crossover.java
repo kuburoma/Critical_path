@@ -8,7 +8,6 @@ import utils.Project;
 abstract public class Crossover {
 
 	protected Project pr;
-
 	protected Individual father;
 	protected Individual mother;
 
@@ -17,10 +16,10 @@ abstract public class Crossover {
 
 	protected Random rand = new Random();
 
-	public Crossover(Project pr) {
+	public void setProject(Project pr){
 		this.pr = pr;
 	}
-
+	
 	abstract public void crossBreeding(Individual father, Individual mother);
 
 	public Individual getSon() {
