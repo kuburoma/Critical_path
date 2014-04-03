@@ -9,10 +9,9 @@ import java.util.List;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 
-import graphic.GraphPanel;
-
 import crossover.Crossover2PFBC;
 import fitness.FitnessMinSpan;
+import graphic.GraphPanel;
 import reader.Reader;
 import selection.SelectionTournament;
 import utils.Project;
