@@ -1,7 +1,5 @@
 package utils;
 
-import java.util.Iterator;
-
 public class Project {
 
 	public int numberOfTasks;

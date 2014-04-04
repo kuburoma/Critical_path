@@ -110,8 +110,4 @@ public class BreedingStation {
 		fitnessType.calculateFitness(oldGeneration);
 	}
 
-	private void soutResult() {
-		oldGeneration.soutFitnessStats();
-	}
-
 }

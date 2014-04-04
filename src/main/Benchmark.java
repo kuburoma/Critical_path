@@ -1,8 +1,6 @@
 package main;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import reader.Reader;
 import selection.Selection;
@@ -56,7 +54,7 @@ public class Benchmark {
 					}
 
 					crossoverType.setProject(pr);
-					help = runProject(pr,1000);
+					help = runProject(pr,10000);
 					
 					//System.out.println(i+" "+j);
 					//System.out.println(help);					
@@ -132,7 +130,4 @@ public class Benchmark {
 		fitnessType.calculateFitness(oldGeneration);
 	}
 
-	private void soutResult() {
-		oldGeneration.soutFitnessStats();
-	}
 }
