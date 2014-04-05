@@ -37,7 +37,7 @@ public class Main extends JFrame implements ActionListener {
 				10);
 
 		try {
-			bm.run();
+			bm.run("SM","j30",1000);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -128,7 +128,7 @@ public class Main extends JFrame implements ActionListener {
 				renewable_resources, renewable_resources_constrain,
 				number_of_renewable_resources, nonrenewable_resources,
 				nonrenewable_resources_constrain,
-				number_of_nonrenewable_resources, 10);
+				number_of_nonrenewable_resources, 10,0);
 
 		// int[] order = {0,2,1,4,5,7,3,6,8};
 		// int[] modes = {0,1,0,0,1,0,0,0,0};

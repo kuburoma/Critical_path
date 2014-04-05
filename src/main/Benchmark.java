@@ -7,6 +7,7 @@ import reader.ReaderSolutions;
 import selection.Selection;
 import utils.Generation;
 import utils.Individual;
+import utils.InstancesOptimums;
 import utils.Project;
 import crossover.Crossover;
 import fitness.Fitness;
@@ -22,6 +23,7 @@ public class Benchmark {
 	private int[] selected;
 	private int nBest;
 	private int nWorst;
+	Individual ind;
 	
 	int size;
 
@@ -39,13 +41,15 @@ public class Benchmark {
 		this.selection = selection;
 		this.nBest = nBest;
 		this.nWorst = nWorst;
+		
+		
 
 		//soutResult();
 		//oldGeneration.soutFitness();
 		
 	}
 	
-	public void run() throws IOException{
+	public void run(String mode, String instances, int schedules) throws IOException{
 		Reader r = new Reader();
 		ReaderSolutions rs = new ReaderSolutions();
 		Project pr;
@@ -53,38 +57,63 @@ public class Benchmark {
 		long avarageDeviation = 0;
 		double numberOfSchedules = 0;
 		int help;
-		int[][] optimum;
+		InstancesOptimums op;
 
 
-			optimum = rs.read("resources/solutionsSM");
+		    op = rs.read("resources/"+mode+"/"+instances+"/solution");
 
-		
-			for (int i = 1; i <= 48; i++) {
-				for (int j = 1; j <= 10; j++) {
-					if(optimum[i][j] == 0){
+			//op = new InstancesOptimums(1, 1, new int[1][1]);
+			
+			
+			for (int i = 1; i <= op.numberOfSets; i++) {
+				for (int j = 1; j <= op.numberOfInstances; j++) {
+					
+					
+					if(!op.contains(i, j)){
 						continue;
 					}
 					
-					//pr = r.read("j30/j3061_9");
+					
+					//pr = r.read("resources/mm/j10/j102_5.mm");
 					//pr = r.read("resources/j102_5");
-					pr = r.read("j30sm/j30"+i+"_"+j+".sm");
+					
+					pr = r.read("resources/"+mode+"/"+instances+"/"+instances+""+i+"_"+j+"."+mode);
+					
 					//pr = r.read("j30/j30"+i+"_"+j+".mm");
 					if(!pr.isFeasible()){
-						System.out.println("not");
+						//System.out.println("not");
 						continue;
 					}
 
 					crossoverType.setProject(pr);
-					help = runProject(pr,50000);
-									
-					System.out.println(i+"_"+j+" - op: "+optimum[i][j]+" my:"+help+" res: "+(help - optimum[i][j]));
+					help = runProject(pr,schedules);
+					
+					if(help == Integer.MAX_VALUE){
+						continue;
+					}
+					/*
+					if(help > pr.due_date){
+						help += pr.tardcost;
+					}
+				    */
+					/*
+					System.out.println("+++++++++++++++++++++++");
+					
+					System.out.println(help);
+					System.out.println(ind);
+					*/
+					
+					
+					System.out.println(i+"_"+j+" - op: "+op.getOptimum(i, j)+" my:"+help+" res: "+(help - op.getOptimum(i, j)));
+					
 					//System.out.println("-----------");
-					avarageDeviation += help - optimum[i][j];
+					avarageDeviation += help - op.getOptimum(i, j);
 					numberOfSchedules++;
 					
 				}
 			}
 
+			
 			double ad = (avarageDeviation * 1.0) / (numberOfSchedules * 1.0);
 			System.out.println(ad);
 		
@@ -98,13 +127,14 @@ public class Benchmark {
 		oldGeneration.initialPopulation();
 		schedule();
 		evaluateFitness();
-		
+		//System.out.println("---------------------");
 		
 		for (int i = 1; i < numberOfSchedules / size; i++) {
 			nextGeneration(pr);
 			
 			if(oldGeneration.minSpan < minSpan){
 				minSpan = oldGeneration.minSpan;
+				ind = oldGeneration.ind;
 			}
 			//System.out.print(oldGeneration.numberOfSameIndividuals()+" - ");
 			//System.out.println();
