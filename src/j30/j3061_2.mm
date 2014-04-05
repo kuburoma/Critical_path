@@ -12,7 +12,7 @@ RESOURCES
 ************************************************************************
 PROJECT INFORMATION:
 pronr.  #jobs rel.date duedate tardcost  MPM-Time
-    1     30      0       33       12       33
+    1     30      0       36       12       33
 ************************************************************************
 PRECEDENCE RELATIONS:
 jobnr.    #modes  #successors   successors
