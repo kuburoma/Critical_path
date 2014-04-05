@@ -28,10 +28,20 @@ public class Main extends JFrame implements ActionListener {
 	 */
 	public static void main(String[] args) {
 
-		Benchmark bm = new Benchmark(new Crossover2PFBC(),
-				new FitnessMinSpan(), new SelectionTournament(10), 100);
+		Benchmark bm = new Benchmark(
+				new Crossover2PFBC(),
+				new FitnessMinSpan(), 
+				new SelectionTournament(5),
+				100, 
+				4,
+				10);
 
-		bm.run();
+		try {
+			bm.run();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 	}
 

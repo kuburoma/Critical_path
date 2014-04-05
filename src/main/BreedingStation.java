@@ -28,16 +28,15 @@ public class BreedingStation {
 
 	List<Integer> a = new ArrayList<Integer>();
 
-	public BreedingStation(Project pr, Crossover crossoverType,
-			Fitness fitnessType, Selection selection, int size) {
+	public BreedingStation(Project pr, Crossover crossoverType, Fitness fitnessType, Selection selection, int size) {
 		this.pr = pr;
 		this.size = size;
 		this.crossoverType = crossoverType;
 		this.fitnessType = fitnessType;
 		this.selection = selection;
 		avgFitness = new ArrayList<Double>();
-		oldGeneration = new Generation(pr, size);
-		newGeneration = new Generation(pr, size);
+		oldGeneration = new Generation(pr, size, 0, 0);
+		newGeneration = new Generation(pr, size, 0, 0);
 		oldGeneration.initialPopulation();
 		schedule();
 		evaluateFitness();
@@ -103,7 +102,7 @@ public class BreedingStation {
 
 	private void switchGenerations() {
 		oldGeneration = newGeneration.clone();
-		newGeneration = new Generation(pr, size);
+		newGeneration = new Generation(pr, size, 0, 0);
 	}
 
 	private void evaluateFitness() {

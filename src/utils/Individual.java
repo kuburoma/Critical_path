@@ -249,6 +249,7 @@ public class Individual implements Comparable<Individual> {
 		return endTimeCurr;
 	}
 
+	/*
 	@Override
 	public String toString() {
 		String vypis = "";
@@ -260,6 +261,21 @@ public class Individual implements Comparable<Individual> {
 		}
 		return vypis;
 	}
+	*/
+	@Override
+	public String toString() {
+		String vypis = "-------------------\n";
+		for (int i = 0; i < numberOfTasks; i++) {
+			vypis += taskOrder[i] + " ";			
+		}
+		vypis += "\n";
+		for (int i = 0; i < numberOfTasks; i++) {
+			vypis += modes[i] + " ";			
+		}
+		vypis += "\n-------------------\n";
+		return vypis;
+	}
+	
 
 	public void soutRes() {
 		for (int i = 0; i < individualRenewableResources.length; i++) {
@@ -268,6 +284,20 @@ public class Individual implements Comparable<Individual> {
 			}
 			System.out.println();
 		}
+	}
+	
+	public boolean isSame(Individual ind){
+		for (int i = 0; i < taskOrder.length; i++) {
+			if(taskOrder[i] != ind.taskOrder[i]){
+				return false;
+			}
+		}
+		for (int i = 0; i < modes.length; i++) {
+			if(modes[i] != ind.modes[i]){
+				return false;
+			}
+		}
+		return true;
 	}
 
 	@Override

@@ -38,7 +38,7 @@ public class Reader {
 		/* table[task][mode] */
 		int[][] duration_in_task_mode;
 
-		InputStream in = getClass().getResourceAsStream("/"+project+".mm");
+		InputStream in = getClass().getResourceAsStream("/"+project);
 		//InputStream in = new FileInputStream(project);
 		input = new BufferedReader(new InputStreamReader(in));
 
