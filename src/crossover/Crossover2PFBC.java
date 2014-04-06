@@ -42,7 +42,7 @@ public class Crossover2PFBC extends Crossover {
 		
 		for (int i = 0; i < start; i++) {
 			order[placed] = father.taskOrder[i];
-			modes[placed] = father.modes[i];
+			modes[placed] = father.modeOrdered[i];
 			task_used[father.taskOrder[i]] = true;
 			placed++;
 		}
@@ -67,7 +67,7 @@ public class Crossover2PFBC extends Crossover {
 					}	
 					
 					order[placed] = mother.taskOrder[i];
-					modes[placed] = mother.modes[i];
+					modes[placed] = mother.modeOrdered[i];
 					task_used[mother.taskOrder[i]] = true;
 					placed++;
 					
@@ -94,7 +94,7 @@ public class Crossover2PFBC extends Crossover {
 				if(allPredecessorsDone(type, task_used)){
 					
 					order[placed] = father.taskOrder[i];
-					modes[placed] = father.modes[i];
+					modes[placed] = father.modeOrdered[i];
 					task_used[father.taskOrder[i]] = true;
 					placed++;
 					it.remove();
@@ -132,7 +132,7 @@ public class Crossover2PFBC extends Crossover {
 		
 		for (int i = pr.numberOfTasks - 1; i >= end; i--) {
 			order[placed] = father.taskOrder[i];
-			modes[placed] = father.modes[i];
+			modes[placed] = father.modeOrdered[i];
 			task_used[father.taskOrder[i]] = true;
 			placed--;
 		}
@@ -156,7 +156,7 @@ public class Crossover2PFBC extends Crossover {
 					}	
 					
 					order[placed] = mother.taskOrder[i];
-					modes[placed] = mother.modes[i];
+					modes[placed] = mother.modeOrdered[i];
 					task_used[mother.taskOrder[i]] = true;
 					placed--;
 					
@@ -183,7 +183,7 @@ public class Crossover2PFBC extends Crossover {
 				if(allDescendantsDone(type, task_used)){
 					
 					order[placed] = father.taskOrder[i];
-					modes[placed] = father.modes[i];
+					modes[placed] = father.modeOrdered[i];
 					task_used[father.taskOrder[i]] = true;
 					placed--;
 					it.remove();

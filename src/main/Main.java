@@ -28,20 +28,96 @@ public class Main extends JFrame implements ActionListener {
 	 */
 	public static void main(String[] args) {
 
-		Benchmark bm = new Benchmark(
-				new Crossover2PFBC(),
-				new FitnessMinSpan(), 
-				new SelectionTournament(5),
-				100, 
-				4,
-				10);
+		/*
+		Benchmark bm = new Benchmark(new Crossover2PFBC(),
+				new FitnessMinSpan(), new SelectionTournament(4), 100, 2, 10);
 
 		try {
-			bm.run("SM","j30",1000);
+			System.out.println(bm.run("sm", "j30", 10000, 5));
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		*/
+		// testing();
+
+		benchmark();
+	}
+	
+	
+	public static void benchmark(){
+		int size = 100;
+		int turnament = 4;
+		int elitism = 2;
+		int delete = 10;
+		int iteration = 10000;
+		int again = 5;
+		
+		Benchmark bm = new Benchmark(new Crossover2PFBC(),
+				new FitnessMinSpan(), new SelectionTournament(turnament), size, elitism, delete);
+
+		try {
+			System.out.println("sm_j30: "+bm.run("sm", "j30", iteration, again));
+			System.out.println("sm_j60: "+bm.run("sm", "j60", iteration, again));
+			System.out.println("sm_j120: "+bm.run("sm", "j120", iteration, again));
+			System.out.println("mm_j10: "+bm.run("mm", "j10", iteration, again));
+			System.out.println("mm_j12: "+bm.run("mm", "j12", iteration, again));
+			System.out.println("mm_j14: "+bm.run("mm", "j14", iteration, again));
+			System.out.println("mm_j16: "+bm.run("mm", "j16", iteration, again));
+			System.out.println("mm_j18: "+bm.run("mm", "j18", iteration, again));
+			System.out.println("mm_j20: "+bm.run("mm", "j20", iteration, again));
+			System.out.println("mm_j30: "+bm.run("mm", "j30", iteration, again));
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public static void testing() {
+
+		int size = 100;
+		int maxElitism = 40;
+		int maxDelete = 40;
+		int maxTurnament = 1;
+		int pokusu = 10;
+		double help;
+		double min_v = Integer.MAX_VALUE;
+		int min_i = 0;
+		int min_j = 0;
+		int min_t = 0;
+
+		for (int i = 0; i < maxElitism; i += 2) {
+			for (int j = 0; j < maxDelete; j += 2) {
+				System.out.println(i + " - " + j);
+				if (i + j > size) {
+					System.out.println("vetsi");
+					break;
+				}
+				// for (int t = 1; t < maxTurnament; t++) {
+				// System.out.println(i+" - "+j +" - "+t);
+				Benchmark bm = new Benchmark(new Crossover2PFBC(),
+						new FitnessMinSpan(), new SelectionTournament(5), size,
+						i, j);
+
+				try {
+					help = bm.run("mm", "j10", 10000, 5);
+					if (help < min_v) {
+						min_v = help;
+						min_i = i;
+						min_j = j;
+						// min_t = t;
+					}
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				// }
+			}
+		}
+
+		System.out.println("min_v: " + min_v);
+		System.out.println("min_i: " + min_i);
+		System.out.println("min_j: " + min_j);
+		System.out.println("min_t: " + min_t);
 
 	}
 
@@ -128,7 +204,7 @@ public class Main extends JFrame implements ActionListener {
 				renewable_resources, renewable_resources_constrain,
 				number_of_renewable_resources, nonrenewable_resources,
 				nonrenewable_resources_constrain,
-				number_of_nonrenewable_resources, 10,0);
+				number_of_nonrenewable_resources, 10, 0);
 
 		// int[] order = {0,2,1,4,5,7,3,6,8};
 		// int[] modes = {0,1,0,0,1,0,0,0,0};

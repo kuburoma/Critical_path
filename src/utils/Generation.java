@@ -16,6 +16,7 @@ public class Generation {
 	public int totalFitness;
 	public List<Individual> individuals;
 	public List<Individual> elitism;
+	public Individual ind;
 
 	public double[] selection;
 
@@ -151,11 +152,12 @@ public class Generation {
 	}
 
 	public void addFitness(int minSpan, int maxSpan, double averageFitness,
-			int totalFitness) {
+			int totalFitness, Individual ind) {
 		this.minSpan = minSpan;
 		this.maxSpan = maxSpan;
 		this.averageFitness = averageFitness;
 		this.totalFitness = totalFitness;
+		this.ind = ind;
 	}
 
 	public void setFitnessTo(int pos, int fitness) {

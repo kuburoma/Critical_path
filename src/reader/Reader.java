@@ -16,7 +16,9 @@ public class Reader {
 
 		int number_of_tasks;
 		
-		int optimumSpan;
+		int due_date;
+		
+		int tardcost;
 
 		int[][] descendante_connection;
 
@@ -64,7 +66,8 @@ public class Reader {
 		st.nextToken();
 		st.nextToken();
 		st.nextToken();
-		optimumSpan = Integer.valueOf(st.nextToken());
+		due_date = Integer.valueOf(st.nextToken());
+		tardcost = Integer.valueOf(st.nextToken());
 		
 		skip(3);
 
@@ -157,8 +160,8 @@ public class Reader {
 		System.out.println();
 		
 		*/
-		/*
 		
+		/*
 		for (int i = 0; i < descendante_connection.length; i++) {
 			System.out.print(i+": ");
 			for (int j = 0; j < descendante_connection[i].length; j++) {
@@ -166,8 +169,8 @@ public class Reader {
 			}
 			System.out.println();
 		}
-		
 		*/
+		
 		/*
 		System.out.println("Renewable resources");
 		for (int i = 0; i < renewable_resources.length; i++) {
@@ -197,7 +200,7 @@ public class Reader {
 				number_of_renewable_resources, 
 				nonrenewable_resources, 
 				nonrenewable_resources_constrain, 
-				number_of_nonrenewable_resources, optimumSpan);
+				number_of_nonrenewable_resources, due_date, tardcost);
 		
 	}
 

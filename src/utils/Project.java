@@ -20,7 +20,8 @@ public class Project {
 	int[] nonrenewable_resources_constrain;
 	int number_of_nonrenewable_resources;
 
-	public int optimumSpan;
+	public int due_date;
+	public int tardcost;
 
 	int maxLength;
 	
@@ -32,7 +33,7 @@ public class Project {
 			int number_of_renewable_resources,
 			int[][][] nonrenewable_resources,
 			int[] nonrenewable_resources_constrain,
-			int number_of_nonrenewable_resources, int optimumSpan) {
+			int number_of_nonrenewable_resources, int optimumSpan, int tardcost) {
 		super();
 		this.numberOfTasks = numberOfTasks;
 		this.descendant_connection = descendant_connection;
@@ -44,8 +45,9 @@ public class Project {
 		this.nonrenewable_resources = nonrenewable_resources;
 		this.nonrenewable_resources_constrain = nonrenewable_resources_constrain;
 		this.number_of_nonrenewable_resources = number_of_nonrenewable_resources;
-		this.optimumSpan = optimumSpan;
+		this.due_date = due_date;
 		this.maxLength = calculateMaxLenght();
+		this.tardcost = tardcost;
 		
 		precedence_connection = new int[numberOfTasks][];
 		
