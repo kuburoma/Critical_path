@@ -11,8 +11,12 @@ abstract public class Crossover {
 	protected Individual father;
 	protected Individual mother;
 
+	protected Individual best;
+	
 	protected Individual son;
 	protected Individual daughter;
+	
+	
 
 	protected Random rand = new Random();
 
@@ -20,8 +24,8 @@ abstract public class Crossover {
 		this.pr = pr;
 	}
 	
-	abstract public void crossBreeding(Individual father, Individual mother);
-
+	abstract public void crossBreeding(Individual father, Individual mother, Individual best);
+	
 	public Individual getSon() {
 		return son;
 	}

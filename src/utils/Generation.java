@@ -17,6 +17,7 @@ public class Generation {
 	public List<Individual> individuals;
 	public List<Individual> elitism;
 	public Individual ind;
+	public Individual bestOfGeneration;
 
 	public double[] selection;
 
@@ -70,6 +71,7 @@ public class Generation {
 		System.out.println("-----------------");
 		*/
 		
+		bestOfGeneration = individuals.get(0);
 		
 		for (int i = 0; i < nBest; i++) {
 			elitism.add(individuals.get(i));

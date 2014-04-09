@@ -4,16 +4,21 @@ import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 
+import crossover.Crossover;
 import crossover.Crossover2PFBC;
+import crossover.CrossoverBox;
 import fitness.FitnessMinSpan;
 import graphic.GraphPanel;
 import reader.Reader;
 import selection.SelectionTournament;
+import utils.Individual;
 import utils.Project;
 
 public class Main extends JFrame implements ActionListener {
@@ -28,19 +33,21 @@ public class Main extends JFrame implements ActionListener {
 	 */
 	public static void main(String[] args) {
 
-		/*
-		Benchmark bm = new Benchmark(new Crossover2PFBC(),
+		
+		Benchmark bm = new Benchmark(new CrossoverBox(),
 				new FitnessMinSpan(), new SelectionTournament(4), 100, 2, 10);
-
 		try {
-			System.out.println(bm.run("sm", "j30", 10000, 5));
+			System.out.println(bm.run("sm", "j30", 5000, 5));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		*/
+		
+		
+		//crossTest();
+		
 		// testing();
 
-		benchmark();
+		//benchmark();
 	}
 	
 	
@@ -49,7 +56,7 @@ public class Main extends JFrame implements ActionListener {
 		int turnament = 4;
 		int elitism = 2;
 		int delete = 10;
-		int iteration = 10000;
+		int iteration = 50000;
 		int again = 5;
 		
 		Benchmark bm = new Benchmark(new Crossover2PFBC(),
@@ -70,6 +77,78 @@ public class Main extends JFrame implements ActionListener {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public static void crossTest(){
+		Crossover crossoverType = new CrossoverBox();
+		
+		
+		int number_of_tasks = 9;
+
+		int[][] precedence_connection = { {1, 2}, /* 0 */
+		{ 3, 4, 5 }, /* 1 */
+		{ 5 }, /* 2 */
+		{ 6 }, /* 3 */
+		{ 6 }, /* 4 */
+		{ 7 }, /* 5 */
+		{ 8 }, /* 6 */
+		{ 8 }, /* 7 */
+		{  }, /* 8 */
+		};
+
+		int[] number_of_modes_in_task = { 2, 2, 2, 2, 2, 2, 2, 2, 2, };
+
+		int number_of_renewable_resources = 1;
+
+		int number_of_nonrenewable_resources = 1;
+
+		/* table[task][mode][resource] */
+		int[][][] renewable_resources = { { { 0 }, { 0 } }, { { 5 }, { 6 } },
+				{ { 2 }, { 1 } }, { { 3 }, { 2 } }, { { 1 }, { 2 } },
+				{ { 3 }, { 5 } }, { { 2 }, { 3 } }, { { 3 }, { 1 } },
+				{ { 2 }, { 4 } }, };
+
+		int[] renewable_resources_constrain = { 6 };
+
+		/* table[task][mode][resource] */
+		int[][][] nonrenewable_resources = { { { 0 }, { 0 } },
+				{ { 3 }, { 0 } }, { { 2 }, { 3 } }, { { 2 }, { 2 } },
+				{ { 0 }, { 3 } }, { { 3 }, { 1 } }, { { 0 }, { 2 } },
+				{ { 2 }, { 1 } }, { { 2 }, { 3 } }, };
+
+		int[] nonrenewable_resources_constrain = { 15 };
+
+		/* table[task][mode] */
+		int[][] duration_in_task_mode = { { 0, 0 }, { 4, 2 }, { 2, 3 },
+				{ 3, 6 }, { 4, 2 }, { 3, 2 }, { 4, 2 }, { 2, 6 }, { 6, 3 }, };
+
+		Project pr = new Project(number_of_tasks, precedence_connection,
+				number_of_modes_in_task, duration_in_task_mode,
+				renewable_resources, renewable_resources_constrain,
+				number_of_renewable_resources, nonrenewable_resources,
+				nonrenewable_resources_constrain,
+				number_of_nonrenewable_resources, 10, 0);
+		
+		crossoverType.setProject(pr);
+
+	    int[] order = {0,2,1,4,5,7,3,6,8};
+		int[] modes = {0,1,0,0,1,0,0,0,0};
+
+		int[] order2 = {0,1,3,4,2,6,5,7,8};
+		int[] modes2 = {1,1,0,1,1,0,0,0,1};
+		
+		int[] order3 = {0,2,1,5,7,4,3,6,8};
+		int[] modes3 = {1,1,0,1,1,0,0,0,1};
+
+		boolean gene = false;
+		boolean gene2 = true;
+		boolean gene3 = true;
+
+		Individual ind = new Individual(pr, order, modes, gene);
+		Individual ind2 = new Individual(pr, order2, modes2, gene2);
+		Individual ind3 = new Individual(pr, order3, modes3, gene3);
+		
+		crossoverType.crossBreeding(ind, ind2, ind3);
 	}
 
 	public static void testing() {

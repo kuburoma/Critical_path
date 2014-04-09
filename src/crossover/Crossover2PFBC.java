@@ -8,7 +8,7 @@ import utils.Individual;
 
 public class Crossover2PFBC extends Crossover {
 
-	public void crossBreeding(Individual father, Individual mother) {
+	public void crossBreeding(Individual father, Individual mother, Individual best) {
 		this.father = father;
 		this.mother = mother;
 
@@ -211,4 +211,6 @@ public class Crossover2PFBC extends Crossover {
 		
 		return new Individual(pr, order, modes, father.getGene());
 	}
+
+
 }

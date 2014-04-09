@@ -57,8 +57,9 @@ public class Benchmark {
 		// op = new InstancesOptimums(1, 1, new int[1][1]);
 
 		for (int i = 1; i <= op.numberOfSets; i++) {
-			for (int j = 1; j <= op.numberOfInstances; j++) {
-
+		for (int j = 1; j <= op.numberOfInstances; j++) {
+		//for (int i = 1; i <= 1; i++) {
+			//for (int j = 8; j <= 8; j++) {
 				if (!op.contains(i, j)) {
 					continue;
 				}
@@ -74,16 +75,16 @@ public class Benchmark {
 					// System.out.println("not");
 					continue;
 				}
-				
+
 				int min = Integer.MAX_VALUE;
 				for (int k = 0; k < repeate; k++) {
-					//System.out.println(i+" - "+j+" - "+k);
+					// System.out.println(i+" - "+j+" - "+k);
 					crossoverType.setProject(pr);
 					help = runProject(pr, schedules);
 					if (help == Integer.MAX_VALUE) {
 						continue;
 					}
-					if(min > help){
+					if (min > help) {
 						min = help;
 					}
 				}
@@ -92,21 +93,15 @@ public class Benchmark {
 					continue;
 				}
 
-				/*
-				 * if(help > pr.due_date){ help += pr.tardcost; }
-				 */
-				/*
-				 * System.out.println("+++++++++++++++++++++++");
-				 * 
-				 * System.out.println(help); System.out.println(ind);
-				 */
+				// System.out.println("+++++++++++++++++++++++");
 
-				/*
-				System.out.println(i + "_" + j + " - op: "
-						+ op.getOptimum(i, j) + " my:" + help + " res: "
-						+ (help - op.getOptimum(i, j)));
-				*/
+				// System.out.println(ind);
+
+				// System.out.println(i + "_" + j + " - op: "
+				// + op.getOptimum(i, j) + " my:" + min);
+
 				// System.out.println("-----------");
+
 				avarageDeviation += min - op.getOptimum(i, j);
 				numberOfSchedules++;
 
@@ -114,7 +109,7 @@ public class Benchmark {
 		}
 
 		double ad = (avarageDeviation * 1.0) / (numberOfSchedules * 1.0);
-		//System.out.println(ad);
+		// System.out.println(ad);
 		return ad;
 	}
 
@@ -178,7 +173,8 @@ public class Benchmark {
 		for (int i = 1; i < selected.length; i += 2) {
 			crossoverType.crossBreeding(
 					oldGeneration.individuals.get(selected[i]),
-					oldGeneration.individuals.get(selected[i - 1]));
+					oldGeneration.individuals.get(selected[i - 1]),
+					oldGeneration.bestOfGeneration);
 
 			newGeneration.addIndividual(crossoverType.getSon());
 			newGeneration.addIndividual(crossoverType.getDaughter());

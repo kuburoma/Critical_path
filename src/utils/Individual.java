@@ -1,5 +1,8 @@
 package utils;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Individual implements Comparable<Individual> {
 
 	private Project pr;
@@ -271,6 +274,22 @@ public class Individual implements Comparable<Individual> {
 
 		return endTimeCurr;
 	}
+	
+	public List<Integer> getInOrder(List<Integer> start){
+		List<Integer> result = new ArrayList<Integer>();
+		for (int i = 0; i < taskOrder.length; i++) {
+			for (int j = 0; j < start.size(); j++) {
+				if(taskOrder[i] == start.get(j)){
+					result.add(start.get(j));
+					start.remove(j);
+					if(start.isEmpty()){
+						return result;
+					}
+				}
+			}
+		}
+		return result;
+	}
 
 	/*
 	 * @Override public String toString() { String vypis = ""; for (int i = 0; i
@@ -304,7 +323,24 @@ public class Individual implements Comparable<Individual> {
 		for (int i = 0; i < individualNonrenewableResources.length; i++) {
 			vypis += individualNonrenewableResources[i] + " ";
 		}
+		vypis += "\n----- start time -----\n";
+		for (int i = 0; i < startTime.length; i++) {
+			vypis += startTime[i] +" ";
+		}
+		vypis += "\n----- end time -----\n";
+		for (int i = 0; i < endTime.length; i++) {
+			vypis += endTime[i] +" ";
+		}
+		vypis += "\n----- obnovitelne zdroje -----\n";
+		for (int i = 0; i < individualRenewableResources.length; i++) {
+			vypis += "\n----- zdroj: "+i+" -----\n";
+			for (int j = 0; j < individualRenewableResources[i].length; j++) {
+				vypis += individualRenewableResources[i][j] +" ";
+			}
+		}
 		vypis += "\n-------------------\n";
+		
+		
 
 		return vypis;
 	}
