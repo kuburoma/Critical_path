@@ -55,11 +55,13 @@ public class Benchmark {
 		op = rs.read("resources/" + mode + "/" + instances + "/solution");
 
 		// op = new InstancesOptimums(1, 1, new int[1][1]);
+		
+		long startTime = System.currentTimeMillis();		
 
 		for (int i = 1; i <= op.numberOfSets; i++) {
 		for (int j = 1; j <= op.numberOfInstances; j++) {
-		//for (int i = 1; i <= 1; i++) {
-			//for (int j = 8; j <= 8; j++) {
+		//for (int i = 30; i <= 30; i++) {
+			//for (int j = 1; j <= 1; j++) {
 				if (!op.contains(i, j)) {
 					continue;
 				}
@@ -72,7 +74,7 @@ public class Benchmark {
 
 				// pr = r.read("j30/j30"+i+"_"+j+".mm");
 				if (!pr.isFeasible()) {
-					// System.out.println("not");
+					//System.out.println("not");
 					continue;
 				}
 
@@ -110,6 +112,9 @@ public class Benchmark {
 
 		double ad = (avarageDeviation * 1.0) / (numberOfSchedules * 1.0);
 		// System.out.println(ad);
+		long stopTime = System.currentTimeMillis();
+		long elapsedTime = stopTime - startTime;
+		System.out.println(elapsedTime);
 		return ad;
 	}
 
@@ -121,6 +126,8 @@ public class Benchmark {
 		oldGeneration.initialPopulation();
 		schedule();
 		evaluateFitness();
+		minSpan = oldGeneration.minSpan;
+		//System.out.println("1: "+minSpan);
 		// System.out.println("---------------------");
 
 		for (int i = 1; i < numberOfSchedules / size; i++) {
@@ -130,10 +137,14 @@ public class Benchmark {
 				minSpan = oldGeneration.minSpan;
 				ind = oldGeneration.ind;
 			}
+			
+			//System.out.println((i+1)+": "+minSpan);
+			
 			// System.out.print(oldGeneration.numberOfSameIndividuals()+" - ");
 			// System.out.println();
 			// oldGeneration.soutFitness();
 		}
+
 		// System.out.println(oldGeneration.individuals);
 		return minSpan;
 	}

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Random;
 
 import generator.GenerationGenerator;
 
@@ -18,6 +19,7 @@ public class Generation {
 	public List<Individual> elitism;
 	public Individual ind;
 	public Individual bestOfGeneration;
+	protected Random rand = new Random();
 
 	public double[] selection;
 
@@ -60,41 +62,36 @@ public class Generation {
 		}
 		
 		Collections.sort(individuals);
-		/*
-		
-		for (int i = 0; i < individuals.size(); i++) {
-			System.out.print(individuals.get(i).getFitness()+" ");
-
-		}
-		
-		System.out.println();
-		System.out.println("-----------------");
-		*/
 		
 		bestOfGeneration = individuals.get(0);
 		
 		for (int i = 0; i < nBest; i++) {
 			elitism.add(individuals.get(i));
-			//System.out.print(individuals.get(i).getFitness()+" ");
 
 		}
 		
-		//System.out.println();
-		//System.out.println("-----------------");
+		/*
+		int rn;
+		for (int i = 0; i < nWorst; ) {
+			rn = randomNumber(individuals.size());
+			if(rn <nBest ){
+				continue;
+			}
+			individuals.remove(i);
+			i++;
+		}
+		*/
 		
-		//System.out.println(size+" "+nWorst);
-		
+			
 		int j = 0;
-		for (Iterator<Individual> iterator = individuals.iterator(); iterator.hasNext();) {
+		for (Iterator<Individual> iterator = individuals.iterator(); iterator.hasNext();) {	
 			iterator.next();
-			if(j >= size - nWorst){
+		if(j >= size - nWorst){
 				iterator.remove();
 			}
 			j++;
 		}
 		
-		//System.out.println("    elitism: "+elitism.size());
-		//System.out.println("individuals: "+individuals.size());
 		Collections.shuffle(individuals);
 	}
 
@@ -214,6 +211,10 @@ public class Generation {
 			System.out.print(iterator.next().getFitness() + " ");
 		}
 		System.out.println();
+	}
+	
+	protected int randomNumber(int i) {
+		return rand.nextInt(i);
 	}
 
 }

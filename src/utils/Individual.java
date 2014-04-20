@@ -253,7 +253,6 @@ public class Individual implements Comparable<Individual> {
 				}
 			}
 		}
-
 		return true;
 	}
 

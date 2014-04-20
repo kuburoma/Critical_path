@@ -11,15 +11,15 @@ import java.util.List;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 
+import reader.Reader;
+import selection.SelectionTournament;
+import utils.Individual;
+import utils.Project;
 import crossover.Crossover;
 import crossover.Crossover2PFBC;
 import crossover.CrossoverBox;
 import fitness.FitnessMinSpan;
 import graphic.GraphPanel;
-import reader.Reader;
-import selection.SelectionTournament;
-import utils.Individual;
-import utils.Project;
 
 public class Main extends JFrame implements ActionListener {
 
@@ -32,37 +32,53 @@ public class Main extends JFrame implements ActionListener {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-
-		
-		Benchmark bm = new Benchmark(new CrossoverBox(),
-				new FitnessMinSpan(), new SelectionTournament(4), 100, 2, 10);
-		try {
-			System.out.println(bm.run("sm", "j30", 5000, 5));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		
 		
 		//crossTest();
 		
-		// testing();
+		//testing();
 
-		//benchmark();
+		//singleBenchmark();
+		
+		benchmark();
 	}
 	
+	public static void singleBenchmark(){
+		int size = 100;
+		int turnament = 4;
+		int elitism = 2;
+		int delete = 10;
+		int iteration = 1000;
+		int again = 1;
+		
+		String mode = "mm";
+		String instances = "j30";
+		int i = 64;
+		int j = 10;
+		
+		
+		SingleBenchmark bm = new SingleBenchmark(new Crossover2PFBC(),
+				new FitnessMinSpan(), new SelectionTournament(turnament), size, elitism, delete);
+
+		try {
+			System.out.println(bm.run(mode, instances, iteration, again, i , j));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 	
 	public static void benchmark(){
 		int size = 100;
 		int turnament = 4;
 		int elitism = 2;
 		int delete = 10;
-		int iteration = 50000;
-		int again = 5;
+		int iteration = 1000;
+		int again = 1;
 		
 		Benchmark bm = new Benchmark(new Crossover2PFBC(),
 				new FitnessMinSpan(), new SelectionTournament(turnament), size, elitism, delete);
 
 		try {
+
 			System.out.println("sm_j30: "+bm.run("sm", "j30", iteration, again));
 			System.out.println("sm_j60: "+bm.run("sm", "j60", iteration, again));
 			System.out.println("sm_j120: "+bm.run("sm", "j120", iteration, again));
