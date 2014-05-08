@@ -63,43 +63,15 @@ public class Individual implements Comparable<Individual> {
 			modeOrdered[taskOrder[i]] = modes[i];
 		}
 
-		// System.out.println("++++++++++++++");
-
 		for (int i = 0; i < pr.numberOfTasks; i++) {
-			// System.out.println("Task: "+i);
-			// System.out.println(modeOrdered[i]);
 			for (int j = 0; j < pr.number_of_nonrenewable_resources; j++) {
-				// System.out.print(pr.nonrenewable_resources[i][modeOrdered[i]][j]+" ");
 				individualNonrenewableResources[j] += pr.nonrenewable_resources[i][modeOrdered[i]][j];
-
 			}
-			// System.out.println();
 		}
-
-		/*
-		 * System.out.println(toString());
-		 * 
-		 * 
-		 * System.out.println("+++++++++++++++++++++++++++++++++"); for (int i =
-		 * 0; i < order.length; i++) { System.out.print(order[i]+" "); }
-		 * System.out.println(); for (int i = 0; i < modes.length; i++) {
-		 * System.out.print(modes[i]+" "); } System.out.println(); for (int i =
-		 * 0; i < individualNonrenewableResources.length; i++) {
-		 * System.out.print(individualNonrenewableResources[i]+" "); }
-		 * System.out.println(); for (int i = 0; i <
-		 * pr.nonrenewable_resources_constrain.length; i++) {
-		 * System.out.print(pr.nonrenewable_resources_constrain[i]+" "); }
-		 * System.out.println();
-		 */
 
 		if (!checkNonrenewableResources()) {
-			// System.out.println("non feasible");
 			feasible = false;
 		}
-		/*
-		 * else{ System.out.println("feasible"); }
-		 * System.out.println("-----------------------------------");
-		 */
 	}
 
 	public void scheduling() {
@@ -141,9 +113,6 @@ public class Individual implements Comparable<Individual> {
 
 			current = taskOrder[i];
 
-			// start_time = endTimeOfPredecesors(current,
-			// pr.precedence_connection[current]);
-
 			start_time = endTimeOfPredecesors(current);
 
 			mode = modeOrdered[current];
@@ -156,12 +125,6 @@ public class Individual implements Comparable<Individual> {
 
 			endTime[current] = start_time
 					+ pr.duration_in_task_mode[current][mode];
-
-			/*
-			 * System.out.println(current+" "+start_time
-			 * +" "+pr.duration_in_task_mode[current][mode]+" "+
-			 * endTime[current]);
-			 */
 
 			addTask(current, mode, start_time);
 		}
@@ -199,14 +162,10 @@ public class Individual implements Comparable<Individual> {
 
 	private boolean checkNonrenewableResources() {
 		for (int i = 0; i < pr.number_of_nonrenewable_resources; i++) {
-			// System.out.println("kontrola omezení");
-			// System.out.println(individualNonrenewableResources[i]+" "+individualNonrenewableResources[i]);
 			if (individualNonrenewableResources[i] > pr.nonrenewable_resources_constrain[i]) {
-				// System.out.println("false");
 				return false;
 			}
 		}
-		// System.out.println("feasible");
 		return true;
 	}
 
@@ -290,13 +249,35 @@ public class Individual implements Comparable<Individual> {
 		return result;
 	}
 
-	/*
-	 * @Override public String toString() { String vypis = ""; for (int i = 0; i
-	 * < numberOfTasks; i++) { vypis += "Task: " + i + " Time: " + startTime[i]
-	 * + " Dur: " + pr.duration_in_task_mode[i][modes[i]] + " Res: " +
-	 * pr.renewable_resources[i][modes[i]][0] + " End: " + endTime[i] +
-	 * " Mode: " + modes[i] + "\n"; } return vypis; }
-	 */
+	public boolean isSame(Individual ind) {
+		for (int i = 0; i < taskOrder.length; i++) {
+			if (taskOrder[i] != ind.taskOrder[i]) {
+				return false;
+			}
+		}
+		for (int i = 0; i < modeOrdered.length; i++) {
+			if (modeOrdered[i] != ind.modeOrdered[i]) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	@Override
+	public int compareTo(Individual arg0) {
+		if (this.fitness == arg0.fitness) {
+			return 0;
+		}
+		if (this.fitness > arg0.fitness) {
+			return 1;
+		}
+		if (this.fitness < arg0.fitness) {
+			return -1;
+		}
+
+		return 0;
+	}
+	
 	@Override
 	public String toString() {
 		String vypis = "-------------------\n";
@@ -351,35 +332,6 @@ public class Individual implements Comparable<Individual> {
 			}
 			System.out.println();
 		}
-	}
-
-	public boolean isSame(Individual ind) {
-		for (int i = 0; i < taskOrder.length; i++) {
-			if (taskOrder[i] != ind.taskOrder[i]) {
-				return false;
-			}
-		}
-		for (int i = 0; i < modeOrdered.length; i++) {
-			if (modeOrdered[i] != ind.modeOrdered[i]) {
-				return false;
-			}
-		}
-		return true;
-	}
-
-	@Override
-	public int compareTo(Individual arg0) {
-		if (this.fitness == arg0.fitness) {
-			return 0;
-		}
-		if (this.fitness > arg0.fitness) {
-			return 1;
-		}
-		if (this.fitness < arg0.fitness) {
-			return -1;
-		}
-
-		return 0;
 	}
 
 }

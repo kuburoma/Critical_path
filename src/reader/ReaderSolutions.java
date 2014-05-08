@@ -35,7 +35,6 @@ public class ReaderSolutions {
 		int i;
 		
 		while ((line = input.readLine()) != null) {
-			//System.out.println(line);
 			st = new StringTokenizer(line);
 			d = Integer.valueOf(st.nextToken());
 			i = Integer.valueOf(st.nextToken());

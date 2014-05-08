@@ -9,17 +9,23 @@ import utils.Project;
 
 public class GenerationGenerator {
 
+	public static final int FORWARD_SCHEDULING = 0;
+	public static final int BACKWARD_SCHEDULING = 1;
+	public static final int RANDOM_SCHEDULING = 2;
+
 	Project pr;
 	int numberOfTasks;
+	int scheduling;
 
 	private Random rand = new Random();
 
-	public GenerationGenerator(Project pr) {
+	public GenerationGenerator(Project pr, int scheduling) {
 		this.pr = pr;
+		this.scheduling = scheduling;
 		numberOfTasks = pr.numberOfTasks;
 	}
-	
-	public List<Individual> generatePopulation(int sizeOfGeneration){
+
+	public List<Individual> generatePopulation(int sizeOfGeneration) {
 		List<Individual> li = new ArrayList<Individual>();
 		for (int i = 0; i < sizeOfGeneration; i++) {
 			li.add(generateIndividual());
@@ -45,14 +51,22 @@ public class GenerationGenerator {
 		for (int i = 0; i < numberOfTasks; i++) {
 
 			random_number = randomNumber(taskReady.size());
-			
-			if(randomNumber(2) == 0){
+
+			if (scheduling == this.FORWARD_SCHEDULING) {
 				gene = false;
-			}else{
+			}
+
+			if (scheduling == this.BACKWARD_SCHEDULING) {
 				gene = true;
 			}
-			
-		
+
+			if (scheduling == this.RANDOM_SCHEDULING) {
+				if (randomNumber(2) == 0) {
+					gene = false;
+				} else {
+					gene = true;
+				}
+			}
 
 			current = taskReady.get(random_number);
 

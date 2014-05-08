@@ -24,18 +24,18 @@ public class SingleBenchmark {
 	private int nBest;
 	private int nWorst;
 	Individual ind;
-
+	int scheduling;
 	int size;
 
 	public SingleBenchmark(Crossover crossoverType, Fitness fitnessType,
-			Selection selection, int size, int nBest, int nWorst) {
+			Selection selection, int size, int nBest, int nWorst, int scheduling) {
 		this.size = size;
 		this.crossoverType = crossoverType;
 		this.fitnessType = fitnessType;
 		this.selection = selection;
 		this.nBest = nBest;
 		this.nWorst = nWorst;
-
+		this.scheduling = scheduling;
 		// soutResult();
 		// oldGeneration.soutFitness();
 
@@ -86,8 +86,8 @@ public class SingleBenchmark {
 	public int runProject(Project pr, int numberOfSchedules) {
 
 		int minSpan = Integer.MAX_VALUE;
-		oldGeneration = new Generation(pr, size, nBest, nWorst);
-		newGeneration = new Generation(pr, size, nBest, nWorst);
+		oldGeneration = new Generation(pr, size, nBest, nWorst, scheduling);
+		newGeneration = new Generation(pr, size, nBest, nWorst, scheduling);
 		oldGeneration.initialPopulation();
 		schedule();
 		evaluateFitness();
@@ -115,15 +115,46 @@ public class SingleBenchmark {
 	}
 
 	private void nextGeneration(Project pr) {
-
+		long startTime;
+		long stopTime;
+		long elapsedTime;
+		
+		startTime = System.nanoTime();
 		elitismAndDeleteWorst();
-		selection();
+		stopTime = System.nanoTime();
+		System.out.println("Elitism        : "+(stopTime - startTime));
+		 
+		startTime = System.nanoTime();
+		selection();		
+		stopTime = System.nanoTime();
+		System.out.println("selection      : "+(stopTime - startTime));
+		
+		startTime = System.nanoTime();
 		crossover();
+		stopTime = System.nanoTime();
+		System.out.println("crossover      : "+(stopTime - startTime));
+		
+		startTime = System.nanoTime();
 		fillPopulation();
+		stopTime = System.nanoTime();
+		System.out.println("fillPopulation  : "+(stopTime - startTime));
+		
+		startTime = System.nanoTime();
 		switchGenerations(pr);
+		stopTime = System.nanoTime();
+		System.out.println("Switch generation: "+(stopTime - startTime));
+		
+		startTime = System.nanoTime();
 		schedule();
-
+		stopTime = System.nanoTime();
+		System.out.println("Schedule          : "+(stopTime - startTime));
+		
+		startTime = System.nanoTime();
 		evaluateFitness();
+		stopTime = System.nanoTime();
+		System.out.println("Fitness           : "+(stopTime - startTime));
+		
+		System.out.println("--------------------------------");
 		// oldGeneration.soutGene();
 	}
 
@@ -160,7 +191,7 @@ public class SingleBenchmark {
 
 	private void switchGenerations(Project pr) {
 		oldGeneration = newGeneration.clone();
-		newGeneration = new Generation(pr, size, nBest, nWorst);
+		newGeneration = new Generation(pr, size, nBest, nWorst, scheduling);
 	}
 
 	private void evaluateFitness() {

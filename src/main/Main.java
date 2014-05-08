@@ -19,6 +19,7 @@ import crossover.Crossover;
 import crossover.Crossover2PFBC;
 import crossover.CrossoverBox;
 import fitness.FitnessMinSpan;
+import generator.GenerationGenerator;
 import graphic.GraphPanel;
 
 public class Main extends JFrame implements ActionListener {
@@ -39,7 +40,28 @@ public class Main extends JFrame implements ActionListener {
 
 		//singleBenchmark();
 		
+		//benchmarkDueDate();
+		
 		benchmark();
+	}
+	
+	public static void benchmarkDueDate(){
+		int size = 100;
+		int turnament = 4;
+		int elitism = 2;
+		int delete = 10;
+		int iteration = 1000;
+		int again = 1;
+		
+		Benchmark bm = new Benchmark(new CrossoverBox(),
+				new FitnessMinSpan(), new SelectionTournament(turnament), size, elitism, delete,GenerationGenerator.RANDOM_SCHEDULING);
+
+		try {
+			System.out.println("sm_j120: "+bm.run("sm", "j120", iteration, again));
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public static void singleBenchmark(){
@@ -52,12 +74,12 @@ public class Main extends JFrame implements ActionListener {
 		
 		String mode = "mm";
 		String instances = "j30";
-		int i = 64;
-		int j = 10;
+		int i = 33;
+		int j = 8;
 		
 		
 		SingleBenchmark bm = new SingleBenchmark(new Crossover2PFBC(),
-				new FitnessMinSpan(), new SelectionTournament(turnament), size, elitism, delete);
+				new FitnessMinSpan(), new SelectionTournament(turnament), size, elitism, delete, GenerationGenerator.BACKWARD_SCHEDULING);
 
 		try {
 			System.out.println(bm.run(mode, instances, iteration, again, i , j));
@@ -72,10 +94,10 @@ public class Main extends JFrame implements ActionListener {
 		int elitism = 2;
 		int delete = 10;
 		int iteration = 1000;
-		int again = 1;
+		int again = 5;
 		
 		Benchmark bm = new Benchmark(new Crossover2PFBC(),
-				new FitnessMinSpan(), new SelectionTournament(turnament), size, elitism, delete);
+				new FitnessMinSpan(), new SelectionTournament(turnament), size, elitism, delete,GenerationGenerator.RANDOM_SCHEDULING);
 
 		try {
 
@@ -191,7 +213,7 @@ public class Main extends JFrame implements ActionListener {
 				// System.out.println(i+" - "+j +" - "+t);
 				Benchmark bm = new Benchmark(new Crossover2PFBC(),
 						new FitnessMinSpan(), new SelectionTournament(5), size,
-						i, j);
+						i, j,GenerationGenerator.BACKWARD_SCHEDULING);
 
 				try {
 					help = bm.run("mm", "j10", 10000, 5);

@@ -35,8 +35,8 @@ public class BreedingStation {
 		this.fitnessType = fitnessType;
 		this.selection = selection;
 		avgFitness = new ArrayList<Double>();
-		oldGeneration = new Generation(pr, size, 0, 0);
-		newGeneration = new Generation(pr, size, 0, 0);
+		oldGeneration = new Generation(pr, size, 0, 0, 2);
+		newGeneration = new Generation(pr, size, 0, 0, 2);
 		oldGeneration.initialPopulation();
 		schedule();
 		evaluateFitness();
@@ -102,7 +102,7 @@ public class BreedingStation {
 
 	private void switchGenerations() {
 		oldGeneration = newGeneration.clone();
-		newGeneration = new Generation(pr, size, 0, 0);
+		newGeneration = new Generation(pr, size, 0, 0,2);
 	}
 
 	private void evaluateFitness() {

@@ -24,17 +24,19 @@ public class Benchmark {
 	private int nBest;
 	private int nWorst;
 	Individual ind;
+	int scheduling;
 
 	int size;
 
 	public Benchmark(Crossover crossoverType, Fitness fitnessType,
-			Selection selection, int size, int nBest, int nWorst) {
+			Selection selection, int size, int nBest, int nWorst, int scheduling) {
 		this.size = size;
 		this.crossoverType = crossoverType;
 		this.fitnessType = fitnessType;
 		this.selection = selection;
 		this.nBest = nBest;
 		this.nWorst = nWorst;
+		this.scheduling = scheduling;
 
 		// soutResult();
 		// oldGeneration.soutFitness();
@@ -55,32 +57,28 @@ public class Benchmark {
 		op = rs.read("resources/" + mode + "/" + instances + "/solution");
 
 		// op = new InstancesOptimums(1, 1, new int[1][1]);
-		
-		long startTime = System.currentTimeMillis();		
+
+		long startTime = System.currentTimeMillis();
+		long readTime = 0;
 
 		for (int i = 1; i <= op.numberOfSets; i++) {
-		for (int j = 1; j <= op.numberOfInstances; j++) {
-		//for (int i = 30; i <= 30; i++) {
-			//for (int j = 1; j <= 1; j++) {
+			for (int j = 1; j <= op.numberOfInstances; j++) {
 				if (!op.contains(i, j)) {
 					continue;
 				}
 
-				// pr = r.read("resources/mm/j10/j102_5.mm");
-				// pr = r.read("resources/j102_5");
-
+				long startReadTime = System.currentTimeMillis();
 				pr = r.read("resources/" + mode + "/" + instances + "/"
 						+ instances + "" + i + "_" + j + "." + mode);
+				long endReadTime = System.currentTimeMillis();
+				readTime += endReadTime - startReadTime;
 
-				// pr = r.read("j30/j30"+i+"_"+j+".mm");
 				if (!pr.isFeasible()) {
-					//System.out.println("not");
 					continue;
 				}
 
 				int min = Integer.MAX_VALUE;
 				for (int k = 0; k < repeate; k++) {
-					// System.out.println(i+" - "+j+" - "+k);
 					crossoverType.setProject(pr);
 					help = runProject(pr, schedules);
 					if (help == Integer.MAX_VALUE) {
@@ -94,16 +92,6 @@ public class Benchmark {
 				if (min == Integer.MAX_VALUE) {
 					continue;
 				}
-
-				// System.out.println("+++++++++++++++++++++++");
-
-				// System.out.println(ind);
-
-				// System.out.println(i + "_" + j + " - op: "
-				// + op.getOptimum(i, j) + " my:" + min);
-
-				// System.out.println("-----------");
-
 				avarageDeviation += min - op.getOptimum(i, j);
 				numberOfSchedules++;
 
@@ -111,24 +99,22 @@ public class Benchmark {
 		}
 
 		double ad = (avarageDeviation * 1.0) / (numberOfSchedules * 1.0);
-		// System.out.println(ad);
 		long stopTime = System.currentTimeMillis();
-		long elapsedTime = stopTime - startTime;
-		System.out.println(elapsedTime);
+		long elapsedTime = stopTime - startTime - readTime;
+		//System.out.println("read time    : " + readTime);
+		//System.out.println("Required time: " + elapsedTime);
 		return ad;
 	}
 
 	public int runProject(Project pr, int numberOfSchedules) {
 
 		int minSpan = Integer.MAX_VALUE;
-		oldGeneration = new Generation(pr, size, nBest, nWorst);
-		newGeneration = new Generation(pr, size, nBest, nWorst);
+		oldGeneration = new Generation(pr, size, nBest, nWorst, scheduling);
+		newGeneration = new Generation(pr, size, nBest, nWorst, scheduling);
 		oldGeneration.initialPopulation();
 		schedule();
 		evaluateFitness();
 		minSpan = oldGeneration.minSpan;
-		//System.out.println("1: "+minSpan);
-		// System.out.println("---------------------");
 
 		for (int i = 1; i < numberOfSchedules / size; i++) {
 			nextGeneration(pr);
@@ -137,15 +123,8 @@ public class Benchmark {
 				minSpan = oldGeneration.minSpan;
 				ind = oldGeneration.ind;
 			}
-			
-			//System.out.println((i+1)+": "+minSpan);
-			
-			// System.out.print(oldGeneration.numberOfSameIndividuals()+" - ");
-			// System.out.println();
-			// oldGeneration.soutFitness();
 		}
 
-		// System.out.println(oldGeneration.individuals);
 		return minSpan;
 	}
 
@@ -195,7 +174,7 @@ public class Benchmark {
 
 	private void switchGenerations(Project pr) {
 		oldGeneration = newGeneration.clone();
-		newGeneration = new Generation(pr, size, nBest, nWorst);
+		newGeneration = new Generation(pr, size, nBest, nWorst, scheduling);
 	}
 
 	private void evaluateFitness() {

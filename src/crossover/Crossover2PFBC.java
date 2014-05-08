@@ -100,26 +100,7 @@ public class Crossover2PFBC extends Crossover {
 					it.remove();
 				}
 			}
-		}
-		
-		/*
-		
-		System.out.println("start: "+start+" end: "+end);
-		
-		for (int i = 0; i < order.length; i++) {
-			System.out.print(order[i]+ " ");
-		}
-		System.out.println();
-		
-		for (int i = 0; i < modes.length; i++) {
-			System.out.print(modes[i]+ " ");
-		}
-		System.out.println();
-		
-		System.out.println("+++++++++++++++++++++++");
-		
-		*/
-		
+		}		
 		return new Individual(pr, order, modes, father.getGene());
 	}
 

@@ -29,8 +29,9 @@ public class Generation {
 	public Project pr;
 	public int nBest;
 	public int nWorst;
+	public int scheduling;
 
-	public Generation(Project pr, int size, int nBest, int nWorst) {
+	public Generation(Project pr, int size, int nBest, int nWorst, int scheduling) {
 		this.pr = pr;
 		this.size = size;
 		numberOfIndividuals = 0;
@@ -39,10 +40,11 @@ public class Generation {
 		elitism = new ArrayList<Individual>(size);
 		this.nBest = nBest;
 		this.nWorst = nWorst;
+		this.scheduling = scheduling;
 	}
 
 	public Generation clone() {
-		Generation a = new Generation(pr, size, nBest, nWorst);
+		Generation a = new Generation(pr, size, nBest, nWorst, scheduling);
 		a.minSpan = this.minSpan;
 		a.maxSpan = this.maxSpan;
 		a.averageFitness = this.averageFitness;
@@ -67,20 +69,7 @@ public class Generation {
 		
 		for (int i = 0; i < nBest; i++) {
 			elitism.add(individuals.get(i));
-
 		}
-		
-		/*
-		int rn;
-		for (int i = 0; i < nWorst; ) {
-			rn = randomNumber(individuals.size());
-			if(rn <nBest ){
-				continue;
-			}
-			individuals.remove(i);
-			i++;
-		}
-		*/
 		
 			
 		int j = 0;
@@ -100,22 +89,14 @@ public class Generation {
 	}
 
 	public void initialPopulation() {
-		gg = new GenerationGenerator(pr);
+		gg = new GenerationGenerator(pr,scheduling);
 		individuals = gg.generatePopulation(size);
 	}
 
 	public void fillPopulation(){
-		gg = new GenerationGenerator(pr);
+		gg = new GenerationGenerator(pr,scheduling);
 		List<Individual> l = gg.generatePopulation(nWorst);
-		
-		//System.out.println(" ind:"+individuals.size());
-		//System.out.println("full:"+l.size());
-		
-		//individuals.addAll(l);
 		addIndividuals(l);
-		
-		//System.out.println(" ind:"+individuals.size());
-		//System.out.println("------");
 	}
 	
 	public void addIndividual(Individual ind) {
